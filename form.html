@@ -1,0 +1,96 @@
+<html>
+
+<body id="a">
+    <h1>Form</h1>
+    <form onsubmit="saveToStorage(event)">
+        <label> name</label>
+        <input id="name" type="text" name="name" required />
+        <label> email</label>
+        <input id="email" type="email" name="email" required />
+        <label> phonenumber</label>
+        <input id="phonenumber" type="tel" name="phonenumber" />
+        <button> Submit </button><br>
+
+    </form>
+    <p id="b"></p>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
+    <script>
+
+        var body = document.getElementById('a');
+        body.addEventListener('click', editItem);
+
+
+        async function saveToStorage(e) {
+            e.preventDefault();
+            const name = event.target.name.value;
+            const email = event.target.email.value;
+            const phonenumber = event.target.phonenumber.value;
+
+
+            const obj = {
+                name: name,
+                email: email,
+                phonenumber: phonenumber
+            }
+            const userDetails = axios.post("http://localhost:3000/user/add-user", obj)
+            let res = await userDetails;
+            showNewUserOnScreen(res.data.newUserDetail)
+        }
+        window.addEventListener("DOMContentLoaded", async () => {
+            const getDetails = axios.get("http://localhost:3000/user/get-users")
+
+            let res = await getDetails;
+            for (var i = 0; res.data.allUsers.length; i++) {
+
+                showNewUserOnScreen(res.data.allUsers[i])
+            }
+
+        })
+
+        //show details on screen
+        function showNewUserOnScreen(obj, ID = '1qazx234rfvrrf') {
+            //console.log(obj.id, 'hi');
+            if (obj.id) {
+                ID = obj.id;
+            }
+            var newText = document.createTextNode(obj['name'] + ' ' + obj['email'] + ' ' + obj['phonenumber'] + ' ');
+            //var newText = document.createTextNode('nasim');
+            // Add text to div
+            var a = document.querySelector('#a');
+            var b = document.querySelector('#b');
+            linebreak = document.createElement("br");
+            var div = document.createElement('div');
+            div.id = ID;
+            div.appendChild(newText);
+
+            //delete btn
+            var deleteBtn = document.createElement('button');
+
+            deleteBtn.className = 'btn btn-sm float-right delete';
+
+            deleteBtn.appendChild(document.createTextNode('X'));
+
+            div.appendChild(deleteBtn);
+            div.appendChild(linebreak);
+
+            a.insertBefore(div, b);
+        }
+        // Remove item
+        function editItem(e) {
+
+            if (e.target.classList.contains('delete')) {
+
+                if (confirm('Are You Sure?')) {
+                    var div = e.target.parentElement;
+                    body.removeChild(div);
+
+                    var id = div.id;
+                    axios.delete(`http://localhost:3000/user/delete-user/${id}`);
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>
