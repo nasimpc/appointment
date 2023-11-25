@@ -3,12 +3,10 @@
 <body id="a">
     <h1>Form</h1>
     <form onsubmit="saveToStorage(event)">
-        <label> name</label>
-        <input id="name" type="text" name="name" required />
-        <label> email</label>
-        <input id="email" type="email" name="email" required />
-        <label> phonenumber</label>
-        <input id="phonenumber" type="tel" name="phonenumber" />
+        <label> Category</label>
+        <input id="category" type="text" name="category" required />
+        <label> Expense</label>
+        <input id="expense" type="number" name="expense" required />
         <button> Submit </button><br>
 
     </form>
@@ -22,38 +20,36 @@
 
         async function saveToStorage(e) {
             e.preventDefault();
-            const name = event.target.name.value;
-            const email = event.target.email.value;
-            const phonenumber = event.target.phonenumber.value;
-
+            const category = event.target.category.value;
+            const expense = event.target.expense.value;
 
             const obj = {
-                name: name,
-                email: email,
-                phonenumber: phonenumber
+                category: category,
+                expense: expense,
             }
-            const userDetails = axios.post("http://localhost:3000/user/add-user", obj)
-            let res = await userDetails;
-            showNewUserOnScreen(res.data.newUserDetail)
+            const expenseDetails = axios.post("http://localhost:3000/expense/add-expense", obj)
+            let res = await expenseDetails;
+            showNewExpenseOnScreen(res.data.newExpenseDetail)
         }
         window.addEventListener("DOMContentLoaded", async () => {
-            const getDetails = axios.get("http://localhost:3000/user/get-users")
+            const getExpenses = axios.get("http://localhost:3000/expense/get-expense")
 
-            let res = await getDetails;
-            for (var i = 0; res.data.allUsers.length; i++) {
+            let res = await getExpenses;
+            for (var i = 0; res.data.allExpenses.length; i++) {
 
-                showNewUserOnScreen(res.data.allUsers[i])
+                showNewExpenseOnScreen(res.data.allExpenses[i])
             }
 
         })
 
         //show details on screen
-        function showNewUserOnScreen(obj, ID = '1qazx234rfvrrf') {
-            //console.log(obj.id, 'hi');
+        function showNewExpenseOnScreen(obj, ID = '1qazx234rfvrrf') {
+            console.log(obj.id, obj, 'hi');
+
             if (obj.id) {
                 ID = obj.id;
             }
-            var newText = document.createTextNode(obj['name'] + ' ' + obj['email'] + ' ' + obj['phonenumber'] + ' ');
+            var newText = document.createTextNode(obj['category'] + ' ' + obj['expense'] + ' ');
             //var newText = document.createTextNode('nasim');
             // Add text to div
             var a = document.querySelector('#a');
@@ -65,11 +61,15 @@
 
             //delete btn
             var deleteBtn = document.createElement('button');
+            var editBtn = document.createElement('button');
 
             deleteBtn.className = 'btn btn-sm float-right delete';
+            editBtn.className = 'btn btn-sm float-right';
 
             deleteBtn.appendChild(document.createTextNode('X'));
+            editBtn.appendChild(document.createTextNode('Edit'));
 
+            div.appendChild(editBtn);
             div.appendChild(deleteBtn);
             div.appendChild(linebreak);
 
@@ -85,8 +85,22 @@
                     body.removeChild(div);
 
                     var id = div.id;
-                    axios.delete(`http://localhost:3000/user/delete-user/${id}`);
+                    axios.delete(`http://localhost:3000/expense/delete-expense/${id}`);
                 }
+            }
+            else if (e.target.classList.contains('btn-sm')) {
+
+                var div = e.target.parentElement;
+                var id = div.id;
+                var words = div.firstChild.wholeText.split(" ");
+
+                body.removeChild(div);
+                var category = document.getElementById('category');
+                category.value = words[0];
+                var expense = document.getElementById('expense');
+                expense.value = words[1];
+                axios.delete(`http://localhost:3000/expense/delete-expense/${id}`);
+
             }
         }
 
