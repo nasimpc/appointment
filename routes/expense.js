@@ -3,8 +3,10 @@ const express = require('express');
 
 const router = express.Router();
 const expensecontroller = require('../controllers/expense');
+const companycontroller = require('../controllers/company');
 
 router.post('/add-expense', expensecontroller.addExpense);
+router.post('/add-company', companycontroller.addCompany);
 
 router.get('/get-expense', expensecontroller.getExpense);
 

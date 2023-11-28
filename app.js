@@ -12,14 +12,18 @@ const app = express();
 app.use(cors());
 
 const expenseRoutes = require('./routes/expense');
+const companyRoutes = require('./routes/company');
 
 
 app.use(bodyParser.json({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/expense', expenseRoutes);
+//app.use('/expense', expenseRoutes);
+app.use('/company', companyRoutes);
 
 sequelize
+    //.sync({ force: true })`
+
     .sync()
     .then(result => {
         // console.log(result);

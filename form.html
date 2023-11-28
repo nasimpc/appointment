@@ -1,47 +1,252 @@
 <html>
 
-<body id="a">
-    <h1>Form</h1>
-    <form onsubmit="saveToStorage(event)">
-        <label> Category</label>
-        <input id="category" type="text" name="category" required />
-        <label> Expense</label>
-        <input id="expense" type="number" name="expense" required />
-        <button> Submit </button><br>
+<head>
 
-    </form>
-    <p id="b"></p>
+    <style>
+        /* div {
+            background-color: rgb(195, 219, 220);
+            border-radius: .5%;
+
+        } */
+        div {
+
+            left: 15%;
+        }
+
+        .rating {
+            display: inline-block;
+            position: relative;
+            height: 50px;
+            line-height: 50px;
+            font-size: 50px;
+        }
+
+        .rating label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .rating label:last-child {
+            position: static;
+        }
+
+        .rating label:nth-child(1) {
+            z-index: 5;
+        }
+
+        .rating label:nth-child(2) {
+            z-index: 4;
+        }
+
+        .rating label:nth-child(3) {
+            z-index: 3;
+        }
+
+        .rating label:nth-child(4) {
+            z-index: 2;
+        }
+
+        .rating label:nth-child(5) {
+            z-index: 1;
+        }
+
+        .rating label input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+        }
+
+        .rating label .icon {
+            float: center;
+            color: transparent;
+        }
+
+        .rating label:last-child .icon {
+            color: #000;
+        }
+
+        .rating:not(:hover) label input:checked~.icon,
+        .rating:hover label:hover input~.icon {
+            color: rgb(0, 204, 255);
+        }
+
+        .rating label input:focus:not(:checked)~.icon:last-child {
+            color: #000;
+            text-shadow: 0 0 5px #09f;
+        }
+    </style>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.O">
+        <title>Document</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    </head>
+</head>
+
+
+<body class="bg-success-subtle bg-gradient">
+    <div class="card bg-primary-subtle" style="width: 1000px">
+        <div class="card-body">
+            <h2 class="card-title">Reviews</h2>
+            <form onsubmit="saveToStorage(event)">
+                <label class="form-label"> Company name</label>
+                <input id="name" type="text" name="name" class="form-control" />
+                <label class="form-label"> Pros</label>
+                <input id="pros" type="text" name="pros" class="form-control" />
+                <label class="form-label"> Cons</label>
+                <input id="cons" type="text" name="cons" class="form-control" />
+                <p></p>
+                <div class="rating">
+                    <label>
+                        <input type="radio" name="stars" value="1" />
+                        <span class="icon">★</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="stars" value="2" />
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="stars" value="3" />
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="stars" value="4" />
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="stars" value="5" />
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                    </label>
+                </div>
+                <br>
+                <p></p>
+                <button class="btn btn-primary"> Submit </button><br>
+
+            </form>
+        </div>
+    </div>
+    <br>
+
+    <div class="card col-4 bg-primary-subtle" style="left: 30%;">
+        <div id="a" class="card-body">
+            <h3 class="card-title text-center">Company Reviews</h3><br>
+            <input id="search" type="text" name="search" required class="form-control" />
+            <div class="text-center">
+                <button class="btn btn-primary search"> Search </button><br>
+            </div>
+
+
+            <p id="b"></p>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="p-3 mb-2 bg-primary bg-gradient"></div>
+            <h5>tempting-azure-gradient</h5>
+        </div>
+    </div> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
     <script>
 
         var body = document.getElementById('a');
         body.addEventListener('click', editItem);
+        var x;
+        $(':radio').change(function () {
+            x = this.value;
+            console.log('New star rating: ' + this.value);
+        });
 
-
-        async function saveToStorage(e) {
+        function saveToStorage(e) {
             e.preventDefault();
-            const category = event.target.category.value;
-            const expense = event.target.expense.value;
+
+            const name = event.target.name.value;
+            const pros = event.target.pros.value;
+            const cons = event.target.cons.value;
+            const rating = x;
 
             const obj = {
-                category: category,
-                expense: expense,
+                name: name,
+                pros: pros,
+                cons: cons,
+                rating: rating
             }
-            const expenseDetails = axios.post("http://localhost:3000/expense/add-expense", obj)
-            let res = await expenseDetails;
-            showNewExpenseOnScreen(res.data.newExpenseDetail)
+
+            axios.post("http://localhost:3000/company/add-company", obj)
+
+
         }
-        window.addEventListener("DOMContentLoaded", async () => {
-            const getExpenses = axios.get("http://localhost:3000/expense/get-expense")
+        // window.addEventListener("DOMContentLoaded", async () => {
+        async function editItem(e) {
+            if (e.target.classList.contains('search')) {
+                var companyName = document.querySelector('#search').value;
+                //console.log(companyName);
+                const getCompany = axios.get(`http://localhost:3000/company/get-company/${companyName}`);
+                let res = await getCompany;
 
-            let res = await getExpenses;
-            for (var i = 0; res.data.allExpenses.length; i++) {
+                var companyRating = 0;
+                for (var j = 0; j < res.data.allCompanies.length; j++) {
 
-                showNewExpenseOnScreen(res.data.allExpenses[i])
+                    companyRating += res.data.allCompanies[j].rating;
+
+                }
+                companyRating /= res.data.allCompanies.length;
+                show(`company name : ${companyName}`, `company rating : ${companyRating}`);
+                //console.log(res.data.allCompanies.length);
+
+                //console.log(res.data.allCompanies);
+                for (var i = 0; i < res.data.allCompanies.length; i++) {
+
+                    showNewExpenseOnScreen(res.data.allCompanies[i])
+                }
+
             }
+        }
+        function show(text1, text2) {
+            var newText = document.createTextNode(text1);
+            var a = document.querySelector('#a');
+            var b = document.querySelector('#b');
+            linebreak = document.createElement("br");
+            var div = document.createElement('div');
+            div.appendChild(newText);
+            div.appendChild(linebreak);
 
-        })
+            a.insertBefore(div, b);
 
+            var newText = document.createTextNode(text2);
+            var a = document.querySelector('#a');
+            var b = document.querySelector('#b');
+            linebreak = document.createElement("hr");
+            var div = document.createElement('div');
+            div.appendChild(newText);
+            div.appendChild(linebreak);
+
+            a.insertBefore(div, b);
+
+
+        }
         //show details on screen
         function showNewExpenseOnScreen(obj, ID = '1qazx234rfvrrf') {
             console.log(obj.id, obj, 'hi');
@@ -49,60 +254,102 @@
             if (obj.id) {
                 ID = obj.id;
             }
-            var newText = document.createTextNode(obj['category'] + ' ' + obj['expense'] + ' ');
+            //var newText = document.createTextNode(obj['pros'] + ' ' + obj['cons'] + ' ' + obj['rating']);
             //var newText = document.createTextNode('nasim');
             // Add text to div
+            var newText = document.createTextNode('Pros :');
             var a = document.querySelector('#a');
             var b = document.querySelector('#b');
             linebreak = document.createElement("br");
             var div = document.createElement('div');
-            div.id = ID;
             div.appendChild(newText);
 
             //delete btn
-            var deleteBtn = document.createElement('button');
-            var editBtn = document.createElement('button');
+            // var deleteBtn = document.createElement('button');
+            // var editBtn = document.createElement('button');
 
-            deleteBtn.className = 'btn btn-sm float-right delete';
-            editBtn.className = 'btn btn-sm float-right';
+            // deleteBtn.className = 'btn btn-sm float-right delete';
+            // editBtn.className = 'btn btn-sm float-right';
 
-            deleteBtn.appendChild(document.createTextNode('X'));
-            editBtn.appendChild(document.createTextNode('Edit'));
+            // deleteBtn.appendChild(document.createTextNode('X'));
+            // editBtn.appendChild(document.createTextNode('Edit'));
 
-            div.appendChild(editBtn);
-            div.appendChild(deleteBtn);
+            // div.appendChild(editBtn);
+            // div.appendChild(deleteBtn);
+            div.appendChild(linebreak);
+
+            a.insertBefore(div, b);
+
+
+            var newText = document.createTextNode(obj['pros']);
+            var a = document.querySelector('#a');
+            var b = document.querySelector('#b');
+            linebreak = document.createElement("br");
+            var div = document.createElement('div');
+            div.appendChild(newText);
+            div.appendChild(linebreak);
+
+            a.insertBefore(div, b);
+
+
+            var newText = document.createTextNode('cons :');
+            var a = document.querySelector('#a');
+            var b = document.querySelector('#b');
+            linebreak = document.createElement("br");
+            var div = document.createElement('div');
+            div.appendChild(newText);
+            div.appendChild(linebreak);
+
+            a.insertBefore(div, b);
+
+            var newText = document.createTextNode(obj['cons']);
+            var a = document.querySelector('#a');
+            var b = document.querySelector('#b');
+            linebreak = document.createElement("br");
+            var div = document.createElement('div');
+            div.appendChild(newText);
+            div.appendChild(linebreak);
+
+            a.insertBefore(div, b);
+
+            var newText = document.createTextNode("rating : " + obj['rating']);
+            var a = document.querySelector('#a');
+            var b = document.querySelector('#b');
+            linebreak = document.createElement("hr");
+            var div = document.createElement('div');
+            div.appendChild(newText);
             div.appendChild(linebreak);
 
             a.insertBefore(div, b);
         }
-        // Remove item
-        function editItem(e) {
+        // // Remove item
+        // function editItem(e) {
 
-            if (e.target.classList.contains('delete')) {
+        //     if (e.target.classList.contains('delete')) {
 
-                if (confirm('Are You Sure?')) {
-                    var div = e.target.parentElement;
-                    body.removeChild(div);
+        //         if (confirm('Are You Sure?')) {
+        //             var div = e.target.parentElement;
+        //             body.removeChild(div);
 
-                    var id = div.id;
-                    axios.delete(`http://localhost:3000/expense/delete-expense/${id}`);
-                }
-            }
-            else if (e.target.classList.contains('btn-sm')) {
+        //             var id = div.id;
+        //             axios.delete(`http://localhost:3000/expense/delete-expense/${id}`);
+        //         }
+        //     }
+        //     else if (e.target.classList.contains('btn-sm')) {
 
-                var div = e.target.parentElement;
-                var id = div.id;
-                var words = div.firstChild.wholeText.split(" ");
+        //         var div = e.target.parentElement;
+        //         var id = div.id;
+        //         var words = div.firstChild.wholeText.split(" ");
 
-                body.removeChild(div);
-                var category = document.getElementById('category');
-                category.value = words[0];
-                var expense = document.getElementById('expense');
-                expense.value = words[1];
-                axios.delete(`http://localhost:3000/expense/delete-expense/${id}`);
+        //         body.removeChild(div);
+        //         var category = document.getElementById('category');
+        //         category.value = words[0];
+        //         var expense = document.getElementById('expense');
+        //         expense.value = words[1];
+        //         axios.delete(`http://localhost:3000/expense/delete-expense/${id}`);
 
-            }
-        }
+        //     }
+        // }
 
     </script>
 </body>
